@@ -2,13 +2,19 @@ import React from 'react';
 import './App.css';
 import { LoginForm } from './components/LoginForm'
 
-function App() {
-  return (
-    <div className="App">
-      <LoginForm isSignIn = {true}/>
+class App extends React.Component {
+  constructor() {
+    super();
+  }
 
-    </div>
-  );
+  render(){
+    return (
+      <div className="App">
+        <LoginForm />
+
+      </div>
+    );
+  }
 }
 
 export default App;
