@@ -65,7 +65,7 @@
 }
 
 .login__login-form input {
-  width: calc(100%-12px);
+  width: calc(100% - 12px);
   height: 1.5em;
   border: 1px solid #a4a4a4;
   padding: 1px 6px;
