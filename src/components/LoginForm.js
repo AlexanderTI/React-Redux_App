@@ -1,8 +1,9 @@
 import React from 'react'
+import {connect} from "react-redux";
 
 export class LoginForm extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             isSignIn: true,
             loginValue: '',
@@ -66,3 +67,21 @@ export class LoginForm extends React.Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addUser: login => {
+            dispatch({
+                type: 'ADD_USER',
+                payload: login
+            })
+        }
+    }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
