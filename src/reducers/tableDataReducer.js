@@ -1,23 +1,22 @@
-const userReducer = (state = {
-    login: '',
-    isAuthorized: false,
+const tableDataReducer = (state = {
+    data: [],
 }, action) => {{
     switch (action.type) {
-        case 'ADD_USER':
+        case 'RECEIVE_DATA':
+            console.log(action.type)
             state = {
                 ...state,
-                login: action.payload,
-                isAuthorized: true
+                data: action.payload
+                // data: [...action.payload],
             };
             break;
-        case 'LOGOUT':
+        case 'DELETE_ITEM':
             state = {
                 ...state,
                 login: action.payload,
-                isAuthorized: false
             };
             break;
     }
     return state
 }};
-export default userReducer
+export default tableDataReducer

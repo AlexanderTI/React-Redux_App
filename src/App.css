@@ -30,7 +30,7 @@
 
 .login {
   width: 300px;
-  margin: 50vh auto;
+  margin: 50vh auto 0 auto;
   transform: translateY(-50%);
   padding: 50px;
   border: 1px solid #61dafb;

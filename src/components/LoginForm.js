@@ -1,9 +1,9 @@
 import React from 'react'
-import {connect} from "react-redux";
+import {connect} from 'react-redux';
 
-export class LoginForm extends React.Component {
-    constructor(props) {
-        super(props);
+class LoginForm extends React.Component {
+    constructor() {
+        super();
         this.state = {
             isSignIn: true,
             loginValue: '',
@@ -29,7 +29,7 @@ export class LoginForm extends React.Component {
             return null
         }
         let usersArray = JSON.parse(localStorage.getItem('users'));
-        return  usersArray.find(el => el.loginValue === this.state.loginValue && el.passwordValue === this.state.passwordValue)
+        return  usersArray.find(el => el.loginValue === this.state.loginValue && el.passwordValue === this.state.passwordValue).loginValue
     };
 
     onSwitch = () => {
@@ -45,13 +45,13 @@ export class LoginForm extends React.Component {
         if(!this.state.isSignIn && this.state.loginValue && this.state.passwordValue) {
             this.saveCred(this.state);
         } else {
-            console.log(this.checkAccount());
+            this.props.addUser(this.checkAccount());
+            this.props.getData();
         }
         this.setState(
             {loginValue: '',
                 passwordValue:''})
     };
-
 
     render() {
         return (
@@ -68,20 +68,31 @@ export class LoginForm extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
         user: state.user
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        addUser: login => {
-            dispatch({
-                type: 'ADD_USER',
-                payload: login
-            })
-        }
-    }
-};
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         addUser: login => {
+//             dispatch({
+//                 type: 'ADD_USER',
+//                 payload: login
+//             })
+//         }
+//     }
+// };
+
+const mapDispatchToProps = dispatch => ({
+    addUser: (login) => dispatch({
+        type: 'ADD_USER',
+        payload: login
+    }),
+    getData: () => dispatch({
+        type: 'GET_DATA',
+    })
+});
+
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
