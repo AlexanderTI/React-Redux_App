@@ -1,42 +1,40 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 import LoginForm from './components/LoginForm';
 import Table from './components/Table'
 
 
 class App extends React.Component {
-  constructor() {    
-    super();
-  }
 
-  render(){
+ 
+  render() {
     return (      
       <div className="App">
-        <LoginForm />
-        <Table />
+        <Router>
+          <Route exact path="/">
+            {this.props.user.isAuthorized ? <Table /> : <LoginForm />}
+          </Route>
+          <Route path={"/login"}>
+            <LoginForm />
+          </Route>
+          <Route path={"/table"}>
+            <Table />
+          </Route>
+        </Router>
 
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-      user: state.user
+    user: state.user
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-      addUser: login => {
-          dispatch({
-              type: 'ADD_USER',
-              payload: login
-          })
-      }
-  }
-};
-export default connect(mapStateToProps, mapDispatchToProps)(App);
 
-// export default App;
+export default connect(mapStateToProps)(App);
+

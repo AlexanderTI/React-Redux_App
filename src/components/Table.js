@@ -1,27 +1,56 @@
 import React from 'react'
-import {connect} from 'react-redux';
-import { useTable } from 'react-table';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
- class Table extends React.Component {
+import  Header  from './Header';
+import TableRow from './TableRow';
+
+class Table extends React.Component {
     constructor() {
         super()
     }
 
-    componentDidMount() {
-        console.log(fetch('https://jsonplaceholder.typicode.com/comments?_limit=10')
-        .then(data =>{return data.json()})
-        .then(res => res))
+    onLogout = (ev) => {
+        ev.preventDefault();
+        this.props.logOut();        
+        return <Redirect to="/login" /> 
     }
 
     render() {
-        return null
+        
+        return (
+            <>
+            <Header userName={this.props.user.loginValue} onLogout={this.onLogout} />
+            <table>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>title</th>
+                        <th>description</th>
+                        <th>created At</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {this.props.data.map(el => 
+                <TableRow key={el.id}
+                        id={el.id} 
+                        title={el.name} 
+                        description={el.body} 
+                        createdAt={el.email} 
+                />)}
+                </tbody>
+            </table>
+            </>
+        )        
     }
 
 }
 
 const mapStateToProps = state => {
     return {
-        user: state.user
+        user: state.user.userInfo,
+        data: state.tableData.data
     };
 };
 
@@ -30,6 +59,11 @@ const mapDispatchToProps = dispatch => {
         getData: () => {
             dispatch({
                 type: 'GET_DATA',
+            })
+        },
+        logOut: () => {
+            dispatch({
+                type: 'LOGOUT'
             })
         }
     }

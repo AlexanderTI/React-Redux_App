@@ -1,12 +1,12 @@
 const userReducer = (state = {
-    login: '',
+    userInfo: {},
     isAuthorized: false,
 }, action) => {{
     switch (action.type) {
         case 'ADD_USER':
             state = {
                 ...state,
-                login: action.payload,
+                userInfo: action.payload,
                 isAuthorized: true
             };
             break;

@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux';
+import axios from 'axios';
 
 class LoginForm extends React.Component {
     constructor() {
@@ -29,7 +30,7 @@ class LoginForm extends React.Component {
             return null
         }
         let usersArray = JSON.parse(localStorage.getItem('users'));
-        return  usersArray.find(el => el.loginValue === this.state.loginValue && el.passwordValue === this.state.passwordValue).loginValue
+        return  usersArray.find(el => el.loginValue === this.state.loginValue && el.passwordValue === this.state.passwordValue)
     };
 
     onSwitch = () => {
@@ -49,8 +50,7 @@ class LoginForm extends React.Component {
             this.props.getData();
         }
         this.setState(
-            {loginValue: '',
-                passwordValue:''})
+            {loginValue: '', passwordValue:''})
     };
 
     render() {
@@ -74,25 +74,27 @@ const mapStateToProps = state => {
     };
 };
 
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         addUser: login => {
-//             dispatch({
-//                 type: 'ADD_USER',
-//                 payload: login
-//             })
-//         }
-//     }
-// };
 
 const mapDispatchToProps = dispatch => ({
-    addUser: (login) => dispatch({
+    addUser: user => {console.log(user)
+    dispatch({
         type: 'ADD_USER',
-        payload: login
-    }),
-    getData: () => dispatch({
-        type: 'GET_DATA',
+        payload: user
+    })},
+    getData: () => 
+    axios.get('https://jsonplaceholder.typicode.com/comments?_limit=10')
+    .then(res => {
+        dispatch({
+            type: 'RECEIVE_DATA',
+            payload: res.data
+        })
     })
+    .catch(err => {
+        dispatch({
+            type:'RECEIVE_DATA_ERROR',
+            payload: err
+        })
+    })       
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
