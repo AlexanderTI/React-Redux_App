@@ -25,12 +25,18 @@ class LoginForm extends React.Component {
         localStorage.setItem('users', JSON.stringify(usersArray))
     };
 
-    checkAccount = () => {
+    getAccount = () => {
         if (!localStorage.getItem('users')) {
             return null
         }
         let usersArray = JSON.parse(localStorage.getItem('users'));
         return usersArray.find(el => el.loginValue === this.state.loginValue && el.passwordValue === this.state.passwordValue)
+    };
+
+    checkAccount = () => {
+        let usersArray = JSON.parse(localStorage.getItem('users'));
+        return usersArray.every(el => el.passwordValue !== this.state.passwordValue ||
+            el.loginValue !== this.state.loginValue)
     };
 
     onSwitch = () => {
@@ -45,8 +51,10 @@ class LoginForm extends React.Component {
         ev.preventDefault();
         if (!this.state.isSignIn && this.state.loginValue && this.state.passwordValue) {
             this.saveCred(this.state);
+        } else if(this.state.isSignIn && this.checkAccount()) {
+            alert('Login or password are incorrect!')
         } else {
-            this.props.addUser(this.checkAccount());
+            this.props.addUser(this.getAccount());
             this.props.getData();
         }
         this.setState(
