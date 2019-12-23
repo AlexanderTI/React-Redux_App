@@ -7,20 +7,20 @@ const TableRow = (props) => {
         description,
         createdAt,
         onDelete
-    } = props
+    } = props;
 
-    return(
+    return (
         <tr>
             <td>{id}</td>
             <td>{title}</td>
             <td>{description}</td>
             <td>{createdAt}</td>
             <td>
-                <button onClick={onDelete}>Delete</button>
+                <button onClick={onDelete.bind(this, id)}>Delete</button>
                 <button>Show</button>
             </td>
         </tr>
     )
-}
+};
 
 export default TableRow;

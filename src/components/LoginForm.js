@@ -13,7 +13,7 @@ class LoginForm extends React.Component {
     }
 
     saveCred = () => {
-        if(!localStorage.getItem('users')) {
+        if (!localStorage.getItem('users')) {
             localStorage.setItem('users', JSON.stringify([]))
         }
         let usersArray = JSON.parse(localStorage.getItem('users'));
@@ -26,11 +26,11 @@ class LoginForm extends React.Component {
     };
 
     checkAccount = () => {
-        if(!localStorage.getItem('users')) {
+        if (!localStorage.getItem('users')) {
             return null
         }
         let usersArray = JSON.parse(localStorage.getItem('users'));
-        return  usersArray.find(el => el.loginValue === this.state.loginValue && el.passwordValue === this.state.passwordValue)
+        return usersArray.find(el => el.loginValue === this.state.loginValue && el.passwordValue === this.state.passwordValue)
     };
 
     onSwitch = () => {
@@ -43,25 +43,29 @@ class LoginForm extends React.Component {
 
     onSubmit = ev => {
         ev.preventDefault();
-        if(!this.state.isSignIn && this.state.loginValue && this.state.passwordValue) {
+        if (!this.state.isSignIn && this.state.loginValue && this.state.passwordValue) {
             this.saveCred(this.state);
         } else {
             this.props.addUser(this.checkAccount());
             this.props.getData();
         }
         this.setState(
-            {loginValue: '', passwordValue:''})
+            {loginValue: '', passwordValue: ''})
     };
 
     render() {
         return (
             <div className="login">
-                <h1 className="login__heading">{this.state.isSignIn ? 'Log in' : 'Sign up' }</h1>
-                <button className="login__switch-form" onClick={this.onSwitch}>{this.state.isSignIn ? 'I don\'t have an account' : 'I have an account'}</button>
+                <h1 className="login__heading">{this.state.isSignIn ? 'Log in' : 'Sign up'}</h1>
+                <button className="login__switch-form"
+                        onClick={this.onSwitch}>{this.state.isSignIn ? 'I don\'t have an account' : 'I have an account'}</button>
                 <form className="login__login-form">
-                    <input type="text" name="loginValue" placeholder="Login" onChange={this.onChange} value={this.state.loginValue} />
-                    <input type="text" name="passwordValue" placeholder="Password" onChange={this.onChange} value={this.state.passwordValue} />
-                    <button className="login__submit" onClick={this.onSubmit} disabled={!(this.state.loginValue && this.state.passwordValue)}>{this. state.isSignIn ? 'Log in' : 'Sign up'}</button>
+                    <input type="text" name="loginValue" placeholder="Login" onChange={this.onChange}
+                           value={this.state.loginValue}/>
+                    <input type="text" name="passwordValue" placeholder="Password" onChange={this.onChange}
+                           value={this.state.passwordValue}/>
+                    <button className="login__submit" onClick={this.onSubmit}
+                            disabled={!(this.state.loginValue && this.state.passwordValue)}>{this.state.isSignIn ? 'Log in' : 'Sign up'}</button>
                 </form>
             </div>
         )
@@ -74,27 +78,28 @@ const mapStateToProps = state => {
     };
 };
 
-
 const mapDispatchToProps = dispatch => ({
-    addUser: user => {console.log(user)
-    dispatch({
-        type: 'ADD_USER',
-        payload: user
-    })},
-    getData: () => 
-    axios.get('https://jsonplaceholder.typicode.com/comments?_limit=10')
-    .then(res => {
+    addUser: user => {
+        console.log(user)
         dispatch({
-            type: 'RECEIVE_DATA',
-            payload: res.data
+            type: 'ADD_USER',
+            payload: user
         })
-    })
-    .catch(err => {
-        dispatch({
-            type:'RECEIVE_DATA_ERROR',
-            payload: err
-        })
-    })       
+    },
+    getData: () =>
+        axios.get('https://jsonplaceholder.typicode.com/comments?_limit=10')
+            .then(res => {
+                dispatch({
+                    type: 'RECEIVE_DATA',
+                    payload: res.data
+                })
+            })
+            .catch(err => {
+                dispatch({
+                    type: 'RECEIVE_DATA_ERROR',
+                    payload: err
+                })
+            })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

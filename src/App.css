@@ -115,3 +115,17 @@ td, th {
   border-right: 1px solid #61dafb;
   border-bottom: 1px solid #61dafb;
 }
+
+.modal {
+  z-index: 10;
+  position: fixed;
+  width: 300px;
+  padding: 50px;
+  margin: auto;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  border: 1px solid #61dafb;
+  border-radius: 10px;
+  background-color: #ffffff;
+}
