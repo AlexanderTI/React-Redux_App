@@ -26,9 +26,9 @@ class Table extends React.Component {
 
     onConfirm = ev => {
         ev.preventDefault();
-        console.log('confirm');
         if (this.state.enteredPassword === this.props.user.passwordValue) {
-            this.props.deleteItem(this.state.deleteItemId)
+            this.props.deleteItem(this.state.deleteItemId);
+            this.onCancel();
         } else {
             alert('Incorrect Password');
         }

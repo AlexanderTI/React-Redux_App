@@ -80,7 +80,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     addUser: user => {
-        console.log(user)
         dispatch({
             type: 'ADD_USER',
             payload: user
